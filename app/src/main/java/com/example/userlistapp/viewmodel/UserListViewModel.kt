@@ -1,28 +1,31 @@
 package com.example.userlistapp.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.userlistapp.data.User
-import com.example.userlistapp.data.UserRepository
-import com.example.userlistapp.data.api.RetrofitClient
+import com.example.userlistapp.data.repository.UserRepository
+import com.example.userlistapp.data.model.User
+import com.example.userlistapp.utils.Resource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class UserListViewModel : ViewModel() {
-    private val userService = RetrofitClient().createUserService()
-    private val userRepository = UserRepository(userService)
-    var userList = MutableLiveData<List<User>>()
-    var userDetails = MutableLiveData<User>()
+class UserListViewModel(private val userRepository: UserRepository) : ViewModel() {
+    private val _userList = MutableStateFlow<Resource<List<User>>>(Resource.loading())
+    val userList: StateFlow<Resource<List<User>>> = _userList
 
-    fun getUsers() {
-        viewModelScope.launch {
-            userList.value = userRepository.getUsers()
-        }
+    init {
+        fetchUsers()
     }
-
-    fun getUserDetails(userId: Int) {
+    fun fetchUsers() {
         viewModelScope.launch {
-            userDetails.value = userRepository.getUserDetails(userId)
+            userRepository.getUsers()
+                .catch { e ->
+                    _userList.value = Resource.error(e.toString())
+                }
+                .collect {
+                    _userList.value = Resource.success(it)
+                }
         }
     }
 }

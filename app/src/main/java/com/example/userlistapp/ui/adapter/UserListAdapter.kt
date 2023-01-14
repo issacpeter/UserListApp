@@ -1,40 +1,42 @@
 package com.example.userlistapp.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.userlistapp.R
-import com.example.userlistapp.data.User
+import com.example.userlistapp.data.model.User
 import com.example.userlistapp.databinding.UserItemBinding
 
-class UserListAdapter : ListAdapter<User, UserListAdapter.ViewHolder>(UserDiffCallback()) {
+class UserListAdapter(
+    private val userList: ArrayList<User>
+) : RecyclerView.Adapter<UserListAdapter.DataViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = UserItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
-    }
-
-    inner class ViewHolder(val binding: UserItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: User) {
-            binding.user = item
+    class DataViewHolder(private val binding: UserItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(user: User) {
+            binding.user = user
             binding.executePendingBindings()
-        }
-    }
-    class UserDiffCallback : DiffUtil.ItemCallback<User>() {
-        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem.id == newItem.id
-        }
+            itemView.setOnClickListener {
 
-        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
-            return oldItem == newItem
+            }
         }
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        DataViewHolder(
+            UserItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+
+    override fun getItemCount(): Int = userList.size
+
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
+        holder.bind(userList[position])
+
+    fun addData(list: List<User>) {
+        userList.addAll(list)
+    }
+
 }
