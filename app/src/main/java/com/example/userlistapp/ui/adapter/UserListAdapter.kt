@@ -1,10 +1,14 @@
 package com.example.userlistapp.ui.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.userlistapp.data.model.User
 import com.example.userlistapp.databinding.UserItemBinding
+import com.example.userlistapp.ui.UserDetailActivity
+
 
 class UserListAdapter(
     private val userList: ArrayList<User>
@@ -16,7 +20,9 @@ class UserListAdapter(
             binding.user = user
             binding.executePendingBindings()
             itemView.setOnClickListener {
-
+                var intent = Intent(binding.root!!.context, UserDetailActivity::class.java)
+                intent.putExtra("id", user.id)
+                binding.root.context.startActivity(intent)
             }
         }
     }

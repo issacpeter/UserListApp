@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.userlistapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".UserListApplication"
@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UserListApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.UserDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.UserListActivity"
             android:exported="true">

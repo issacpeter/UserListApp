@@ -21,7 +21,7 @@ class ActivityModule(private val activity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideTopHeadlineViewModel(userRepository: UserRepository): UserListViewModel {
+    fun provideUserListViewModel(userRepository: UserRepository): UserListViewModel {
         return ViewModelProvider(activity,
             ViewModelProviderFactory(UserListViewModel::class) {
                 UserListViewModel(userRepository)

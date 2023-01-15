@@ -2,6 +2,7 @@ package com.example.userlistapp.di.component
 
 import com.example.userlistapp.di.ActivityScope
 import com.example.userlistapp.di.module.ActivityModule
+import com.example.userlistapp.ui.UserDetailActivity
 import com.example.userlistapp.ui.UserListActivity
 import dagger.Component
 
@@ -10,5 +11,7 @@ import dagger.Component
 interface ActivityComponent {
 
     fun inject(activity: UserListActivity)
+
+    fun inject(activity: UserDetailActivity)
 
 }

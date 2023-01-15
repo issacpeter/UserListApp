@@ -13,10 +13,13 @@ import kotlinx.coroutines.launch
 class UserListViewModel(private val userRepository: UserRepository) : ViewModel() {
     private val _userList = MutableStateFlow<Resource<List<User>>>(Resource.loading())
     val userList: StateFlow<Resource<List<User>>> = _userList
+    private val _userDetail = MutableStateFlow<Resource<User>>(Resource.loading())
+    val userDetail: StateFlow<Resource<User>> = _userDetail
 
     init {
         fetchUsers()
     }
+
     fun fetchUsers() {
         viewModelScope.launch {
             userRepository.getUsers()
@@ -25,6 +28,18 @@ class UserListViewModel(private val userRepository: UserRepository) : ViewModel(
                 }
                 .collect {
                     _userList.value = Resource.success(it)
+                }
+        }
+    }
+
+    fun fetchUserDetails(userId: Int) {
+        viewModelScope.launch {
+            userRepository.getUserDetails(userId)
+                .catch { e ->
+                    _userDetail.value = Resource.error(e.toString())
+                }
+                .collect {
+                    _userDetail.value = Resource.success(it)
                 }
         }
     }
