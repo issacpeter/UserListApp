@@ -7,6 +7,8 @@ import com.example.userlistapp.di.ApplicationContext
 import com.example.userlistapp.di.BaseUrl
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -34,9 +36,13 @@ class ApplicationModule(private val application: UserListApplication) {
         @BaseUrl baseUrl: String,
         gsonConverterFactory: GsonConverterFactory
     ): UserService {
+        val interceptor= HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(gsonConverterFactory)
+            .client(client)
             .build()
             .create(UserService::class.java)
     }

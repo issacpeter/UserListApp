@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.userlistapp.data.repository.UserRepository
 import com.example.userlistapp.di.ActivityContext
-import com.example.userlistapp.ui.adapter.UserListAdapter
+import com.example.userlistapp.ui.adapter.UsersAdapter
 import com.example.userlistapp.ui.base.ViewModelProviderFactory
 import com.example.userlistapp.viewmodel.UserListViewModel
 import dagger.Module
@@ -29,6 +29,6 @@ class ActivityModule(private val activity: AppCompatActivity) {
     }
 
     @Provides
-    fun provideUserListAdapter() = UserListAdapter(ArrayList())
+    fun provideUsersAdapter() = UsersAdapter()
 
 }
