@@ -52,6 +52,7 @@ class UserListActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
+        supportActionBar?.title = getString(R.string.home)
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.userlistapp.data.model.User
 import com.example.userlistapp.databinding.UserItemBinding
 import com.example.userlistapp.ui.UserDetailActivity
@@ -46,10 +47,12 @@ class UsersViewHolder(
         binding.user = user
         val path = user.image
         path?.let {
-//            binding.ivMoviePoster.load("https://image.tmdb.org/t/p/w500/$it") {
-//                crossfade(durationMillis = 2000)
-//                transformations(RoundedCornersTransformation(12.5f))
-//            }
+            binding.ivUser
+                Glide.with(binding.root.context)
+                    .load(path)
+                    .circleCrop()
+                    .into(binding.ivUser);
+            }
             itemView.setOnClickListener {
                 var intent = Intent(binding.root!!.context, UserDetailActivity::class.java)
                 intent.putExtra("id", user.id)
@@ -57,4 +60,3 @@ class UsersViewHolder(
             }
         }
     }
-}

@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.example.userlistapp.R
 import com.example.userlistapp.UserListApplication
+import com.example.userlistapp.data.model.User
 import com.example.userlistapp.databinding.ActivityUserDetailBinding
 import com.example.userlistapp.databinding.ActivityUserListBinding
 import com.example.userlistapp.di.component.DaggerActivityComponent
@@ -32,7 +34,19 @@ class UserDetailActivity : AppCompatActivity() {
 
         val userId = intent.getIntExtra("id", 0)
         viewModel.fetchUserDetails(userId)
+        setupUI()
         setupObserver()
+    }
+
+    private fun setupUI() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = getString(R.string.user_details)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed();
+        return true;
     }
 
     private fun setupObserver() {
@@ -42,7 +56,10 @@ class UserDetailActivity : AppCompatActivity() {
                     when (it.status) {
                         Status.SUCCESS -> {
                             binding.progressBar.visibility = View.GONE
-                            it.data?.let { user -> binding.user = user }
+                            it.data?.let { user ->
+                                binding.user = user
+                                setImage(user)
+                            }
                         }
                         Status.LOADING -> {
                             binding.progressBar.visibility = View.VISIBLE
@@ -56,6 +73,16 @@ class UserDetailActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun setImage(user: User) {
+        val path = user.image
+        path?.let {
+            Glide.with(binding.root.context)
+                .load(path)
+                .circleCrop()
+                .into(binding.userImage);
         }
     }
 

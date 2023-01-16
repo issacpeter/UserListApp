@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/projects/UserListApp/app/src/main/res/drawable/circle.xml" value="0.116" />
         <entry key="..\:/projects/UserListApp/app/src/main/res/layout/activity_user_detail.xml" value="0.1490036231884058" />
         <entry key="..\:/projects/UserListApp/app/src/main/res/layout/activity_user_list.xml" value="0.14130434782608695" />
-        <entry key="..\:/projects/UserListApp/app/src/main/res/layout/user_item.xml" value="0.14130434782608695" />
+        <entry key="..\:/projects/UserListApp/app/src/main/res/layout/user_item.xml" value="0.17" />
       </map>
     </option>
   </component>

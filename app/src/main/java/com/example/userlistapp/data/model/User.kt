@@ -28,4 +28,6 @@ data class User(
     val userAgent: String,
     val username: String,
     val weight: Double
-)
+){
+    fun getFullName(): String = "${firstName} ${lastName}"
+}
